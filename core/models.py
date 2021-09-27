@@ -1,6 +1,6 @@
 from os import name
 from django.db import models
-from django.db.models.deletion import DO_NOTHING
+from django.db.models.deletion import DO_NOTHING,CASCADE
 import uuid
 
 QUESTION_TYPE = (
@@ -32,7 +32,7 @@ class QuestionPage(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255,blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    survey = models.ForeignKey(Survey,on_delete=DO_NOTHING,related_name="survey_question_page")
+    survey = models.ForeignKey(Survey,on_delete=CASCADE,related_name="survey_question_page")
     
     def __str__(self):
         return "%s" % (self.title)
@@ -46,8 +46,8 @@ class MCQQuestionOption(models.Model):
 
 class Question(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    survey = models.ForeignKey(Survey,on_delete=DO_NOTHING,related_name="survey_question")
-    questionpage = models.ForeignKey(QuestionPage,on_delete=DO_NOTHING,related_name="questionpage",blank=True, null=True)
+    survey = models.ForeignKey(Survey,on_delete=CASCADE,related_name="survey_question")
+    questionpage = models.ForeignKey(QuestionPage,on_delete=CASCADE,related_name="questionpage",blank=True, null=True)
     title = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     hint = models.TextField(blank=True, null=True)
